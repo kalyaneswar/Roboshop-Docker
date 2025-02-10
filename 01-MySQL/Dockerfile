@@ -11,6 +11,8 @@ ENV MYSQL_ROOT_PASSWORD=RoboShop@1 \
 # Create a new user 'shipping' 
     MYSQL_USER=shipping                   
 
+# Expose the MySQL port
+EXPOSE 3306
 # Copy all SQL scripts from the 'scripts' folder to the MySQL container's initialization directory
 # These scripts will be executed when the container is initialized
 COPY scripts/*.sql /docker-entrypoint-initdb.d/

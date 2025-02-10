@@ -1,4 +1,4 @@
-FROM rabbitmq
+FROM rabbitmq:management
 
 # Set the working directory (optional but can be useful for adding custom configurations)
 WORKDIR /usr/local/etc/rabbitmq

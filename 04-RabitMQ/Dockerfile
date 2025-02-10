@@ -5,7 +5,7 @@ WORKDIR /usr/local/etc/rabbitmq
 
 # Copy the custom RabbitMQ configuration file (if you have one) into the container
 # This file could configure things like the default user, virtual hosts, and other RabbitMQ settings
-COPY rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
+# COPY rabbitmq.conf /etc/rabbitmq/rabbitmq.conf
 
 # Expose the RabbitMQ default port 5672 to allow communication with the RabbitMQ server
 EXPOSE 5672

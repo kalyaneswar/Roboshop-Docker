@@ -14,7 +14,7 @@ ENV RABBITMQ_DEFAULT_USER=roboshop \
  RABBITMQ_DEFAULT_PASS=roboshop123
 
 # Command to run RabbitMQ with the custom configuration file
-CMD ["rabbitmq-server", "-detached"]
+# CMD ["rabbitmq-server", "-detached"]
 
 # Inside the container, use the following command to start the RabbitMQ CLI:
 # rabbitmqctl

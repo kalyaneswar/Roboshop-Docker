@@ -7,6 +7,9 @@ RUN mvn dependency:resolve
 
 RUN mvn clean package
 
+# List files in the target directory to check if the JAR was created
+RUN ls -al /app/target
+
 FROM openjdk:8-jre-alpine3.9
 
 EXPOSE 8080

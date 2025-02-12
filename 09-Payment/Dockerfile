@@ -1,31 +1,14 @@
-FROM python:3.8-alpine
-
-# Install build dependencies for uwsgi (includes gcc, make, and other build tools)
-RUN apk add --no-cache build-base
-
-RUN pip install uwsgi
-
-
-# Create the roboshop user
-RUN adduser -D roboshop
-
-
-USER roboshop
+FROM python:3.9.18-alpine3.19
 
 EXPOSE 8080
-
-WORKDIR /app
-
-COPY . .
-
-RUN pip install -r requirements.txt
-
-ENV CART_HOST=cart \
-    CART_PORT=8080 \
-    USER_HOST=user \
-    USER_PORT=8080 \
-    AMQP_HOST=rabbitmq \
-    AMQP_USER=roboshop \
+ENV AMQP_USER=roboshop \
     AMQP_PASS=roboshop123
-
+USER root
+WORKDIR /app
+COPY requirements.txt /app/
+RUN apk add python3-dev build-base linux-headers pcre-dev
+RUN pip install -r requirements.txt
+COPY *.py /app/
+COPY payment.ini /app/
+#CMD ["python", "payment.py"]
 CMD ["uwsgi", "--ini", "payment.ini"]

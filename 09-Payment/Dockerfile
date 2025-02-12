@@ -1,7 +1,7 @@
 FROM python:3.8-alpine
 
 # Create the roboshop user
-RUN useradd -ms /bin/bash roboshop
+# RUN useradd -ms /bin/bash roboshop
 
 USER roboshop
 

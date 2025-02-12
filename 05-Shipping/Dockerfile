@@ -2,9 +2,9 @@ FROM maven as build
 
 WORKDIR /app
 
-COPY pom.xml /opt/shipping/
+COPY pom.xml /app
 RUN mvn dependency:resolve
-COPY src /opt/shipping/src/
+COPY src /app/src/
 
 RUN mvn clean package
 

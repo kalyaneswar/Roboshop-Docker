@@ -3,6 +3,7 @@ FROM maven as build
 WORKDIR /app
 
 COPY . .
+RUN mvn dependency:resolve
 
 RUN mvn clean package
 

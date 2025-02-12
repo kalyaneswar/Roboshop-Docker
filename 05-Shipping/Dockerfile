@@ -17,11 +17,12 @@ EXPOSE 8080
 
 WORKDIR /app
 
-COPY --from=build /app/target/shipping-1.0-SNAPSHOT.jar shipping.jar
+COPY --from=build /app/target/shipping-1.0.jar shipping.jar
 
 
 ENV CART_ENDPOINT=cart:8080
 ENV DB_HOST=mysql
 
 CMD ["java", "-jar", "shipping.jar"]
+
 

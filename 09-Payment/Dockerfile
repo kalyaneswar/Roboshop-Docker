@@ -1,5 +1,8 @@
 FROM python:3.8-alpine
 
+# Install build dependencies for uwsgi (includes gcc, make, and other build tools)
+RUN apk add --no-cache build-base
+
 RUN pip install uwsgi
 
 

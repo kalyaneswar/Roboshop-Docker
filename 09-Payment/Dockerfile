@@ -1,9 +1,12 @@
 FROM python:3.8-alpine
 
 # Create the roboshop user
-# RUN useradd -ms /bin/bash roboshop
+RUN adduser -D roboshop
+
 
 USER roboshop
+
+EXPOSE 8080
 
 WORKDIR /app
 

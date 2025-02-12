@@ -1,5 +1,8 @@
 FROM node:20
 
+# Create the roboshop user
+RUN useradd -ms /bin/bash roboshop
+
 USER roboshop
 
 WORKDIR /app

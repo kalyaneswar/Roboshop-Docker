@@ -2,7 +2,7 @@ FROM maven as build
 
 WORKDIR /app
 
-COPY pom.xml /app
+COPY pom.xml /app/
 RUN mvn dependency:resolve
 COPY src /app/src/
 

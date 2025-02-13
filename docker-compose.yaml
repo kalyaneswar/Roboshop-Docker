@@ -1,0 +1,126 @@
+networks:
+  default:
+    driver: bridge
+    name: roboshop
+
+services:
+  01-mysq:
+    image: mysql:v1.0
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=RoboShop@1
+      - MYSQL_PASSWORD=RoboShop@1
+      - MYSQL_DATABASE=cities
+      - MYSQL_USER=shipping
+    ports:
+      - "3306:3306"
+    volumes:
+      - source: mysql
+        target: /var/lib/mysql
+        type: volume
+    # networks:
+    #   - roboshop
+  02-mongodb:
+    image: mongodb:v1.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - source: mongodb
+        target: /data/db
+        type: volume
+  03-redis:
+    image: redis:v1.0
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - source: redis
+        target: /data
+        type: volume
+  04-rabbitmq:
+    image: rabbitmq:v1.0
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      # - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=roboshop
+      - RABBITMQ_DEFAULT_PASS=roboshop
+    volumes:
+      - source: rabbitmq
+        target: /var/lib/rabbitmq
+        type: volume
+  05-shipping:
+    image: shipping:v1.0
+    container_name: shipping
+    environment:
+      - CART_ENDPOINT=cart:8080
+      - DB_HOST=mysql
+    # ports:
+    # - "8080:8080"
+    depends_on:
+      - mysql
+  06-user:
+    image: user:v1.0
+    container_name: user
+    environment:
+      - MONGO=true
+      - REDIS_HOST=redis
+      - MONGO_URL="mongodb://mongodb:27017/users"
+    # ports:
+    #   - "8081:8081"
+    depends_on:
+      - mongodb
+      - redis
+
+  07-catalogue:
+    image: catalogue:v1.0
+    container_name: catalogue
+    environment:
+      - MONGO=true
+      - MONGO_URL="mongodb://mongodb:27017/catalogue"
+    # ports:
+    #   - "8082:8082"
+    depends_on:
+      - mongodb
+  08-cart:
+    image: cart:v1.0
+    container_name: cart
+    environment:
+      - REDIS_HOST=redis
+      - CATALOGUE_HOST=catalogue
+      - CATALOGUE_PORT=8080 
+    # ports:
+    #   - "8083:8083"
+    depends_on:
+      - redis
+      - catalogue
+
+  09-payment:
+    image: payment:v1.0
+    container_name: payment
+    environment:
+      - AMQP_USER=roboshop
+      - AMQP_PASS=roboshop123
+    # ports:
+    #   - "8084:8084"
+    depends_on:
+      - rabbitmq
+
+  10-web:
+    image: web:v1.0
+    container_name: web
+    # environment:
+    #   - PAYMENT_URL=http://payment:8084
+    #   - CART_URL=http://cart:8083
+    #   - USER_URL=http://user:8081
+    #   - SHIPPING_URL=http://shipping:8080
+    ports:
+      - "80:80"
+    depends_on:
+      - payment
+      - cart
+      - user
+      - shipping
+      - catalogue

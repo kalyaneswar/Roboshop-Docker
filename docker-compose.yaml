@@ -4,7 +4,7 @@ networks:
     name: roboshop
 
 services:
-  01-mysq:
+  mysql:
     image: mysql:v1.0
     container_name: mysql
     environment:
@@ -20,7 +20,7 @@ services:
         type: volume
     # networks:
     #   - roboshop
-  02-mongodb:
+  mongodb:
     image: mongodb:v1.0
     container_name: mongodb
     ports:
@@ -29,7 +29,7 @@ services:
       - source: mongodb
         target: /data/db
         type: volume
-  03-redis:
+  redis:
     image: redis:v1.0
     container_name: redis
     ports:
@@ -38,7 +38,7 @@ services:
       - source: redis
         target: /data
         type: volume
-  04-rabbitmq:
+  rabbitmq:
     image: rabbitmq:v1.0
     container_name: rabbitmq
     ports:
@@ -51,7 +51,7 @@ services:
       - source: rabbitmq
         target: /var/lib/rabbitmq
         type: volume
-  05-shipping:
+  shipping:
     image: shipping:v1.0
     container_name: shipping
     environment:
@@ -61,7 +61,7 @@ services:
     # - "8080:8080"
     depends_on:
       - mysql
-  06-user:
+  user:
     image: user:v1.0
     container_name: user
     environment:
@@ -74,7 +74,7 @@ services:
       - mongodb
       - redis
 
-  07-catalogue:
+  catalogue:
     image: catalogue:v1.0
     container_name: catalogue
     environment:
@@ -84,7 +84,7 @@ services:
     #   - "8082:8082"
     depends_on:
       - mongodb
-  08-cart:
+  cart:
     image: cart:v1.0
     container_name: cart
     environment:
@@ -97,7 +97,7 @@ services:
       - redis
       - catalogue
 
-  09-payment:
+  payment:
     image: payment:v1.0
     container_name: payment
     environment:
@@ -108,7 +108,7 @@ services:
     depends_on:
       - rabbitmq
 
-  10-web:
+  web:
     image: web:v1.0
     container_name: web
     # environment:

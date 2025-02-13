@@ -3,6 +3,13 @@ networks:
     driver: bridge
     name: roboshop
 
+volumes:
+  mysql:
+  mongodb:
+  redis:
+  rabbitmq:
+  
+
 services:
   mysql:
     image: mysql:v1.0
